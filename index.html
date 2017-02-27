@@ -1,3 +1,51 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+
+<div data-ng-app="ecigarApp" ng-controller="ecigarCtrl">
+    <p>Enter the cost of a cigarette:</p>
+    <input ng-model="costNormal" type="text" value="16"/>
+
+    <p>Enter your monthly usage of cigarettes:</p>
+    <input ng-model="normalUsageCount" type="text" value="5"/>
+
+    <p>Enter the cost of an e-cigarette refill:</p>
+    <input ng-model="costE" type="text" value="15"/>
+
+    <p>Enter e-cigarette refill usage per month:</p>
+    <input ng-model="eUsageCount" type="text" value="1"/>
+
+
+    <p id="expenditure">
+        Your normal cigarette would cost you <span ng-model="spnExpNrm"></span>
+        An e-cigarette would cost you <span ng-model="spnExpE"></span>
+       <p>
+           You would be <span data-ng-bind="profitloss"></span>  every month <!--making profit of/under loss by--> 
+           <span data-ng-bind="profitlossVal"></span> if you switch to e-cigarette.
+       </p>
+    </p>
+</div>
+
 <script>
-document.location.replace="http://www.ecigarette.azurewebsites.net/ecigar";
+    var app = angular.module('ecigarApp', []);
+    app.controller('ecigarCtrl', function($scope) {
+        $normalMonthly = $scope.costNormal * $scope.normalUsageCount;
+        $eMonthly = $scope.costE * $scope.eUsageCount;
+
+        $scope.spnExpNrm = $normalMonthly;
+        $scope.spnExpE = $eMonthly;
+
+        if($normalMonthly > $eMonthly){
+            $scope.profitloss = "under loss by";
+        }
+        else{
+            $scope.profitloss = "making profit of";
+        }
+
+        $scope.profitlossVal = Math.abs($normalMonthly - $eMonthly);
+
+    });
 </script>
+</body>
+</html>
